@@ -13,7 +13,7 @@ fd
   </mat-list>
   
   <div class="fab-button">
-    <button mat-fab color="primary" #tooltip="matTooltip" matTooltip="New Contract"  aria-label="fab button with tooltip">
+    <button mat-fab color="primary" #tooltip="matTooltip" matTooltip="New Contract" (click)="openDialog()" aria-label="fab button with tooltip">
       <mat-icon>add</mat-icon>
     </button>
   </div>
