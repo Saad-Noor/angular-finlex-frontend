@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Contract } from '../model'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ContractService } from '../_service/contract.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-contract-list',
@@ -8,157 +12,27 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class ContractListComponent implements OnInit {
 
-  contractList : any = [];
+  contractList: Contract[];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+    private contractService: ContractService) { }
 
   ngOnInit(): void {
 
-    this.contractList = [
-      {
-        "name": "Customer",
-        "address": "Customer Address",
-        "totalPrice": 38,
-        "brokerName": "Broker Name",
-        "brokerAddress": "Broker Address",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-    
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer2",
-        "address": "Customer Address2",
-        "totalPrice": 20,
-        "brokerName": "Broker Name2",
-        "brokerAddress": "Broker Address2",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-    
-      },
-      {
-        "name": "Customer3",
-        "address": "Customer Address3",
-        "totalPrice": 32,
-        "brokerName": "Broker Name3",
-        "brokerAddress": "Broker Address3",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer",
-        "address": "Customer Address",
-        "totalPrice": 38,
-        "brokerName": "Broker Name",
-        "brokerAddress": "Broker Address",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-    
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer1",
-        "address": "Customer Address1",
-        "totalPrice": 10,
-        "brokerName": "Broker Name1",
-        "brokerAddress": "Broker Address1",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-      },
-      {
-        "name": "Customer2",
-        "address": "Customer Address2",
-        "totalPrice": 20,
-        "brokerName": "Broker Name2",
-        "brokerAddress": "Broker Address2",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
-    
-      },
-      {
-        "name": "Customer3",
-        "address": "Customer Address3",
-        "totalPrice": 32,
-        "brokerName": "Broker Name3",
-        "brokerAddress": "Broker Address3",
-        "contractStartDate": new Date(),
-        "contractEndDate": new Date()
+    this.contractService.getContracts().subscribe(result => {
+      const res = JSON.parse(JSON.stringify(result))
+      if (res.status) {
+        this.contractList = res.constracts
       }
-    ]
+    }, error => {
+
+    })
 
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogModal, {
-      // width: '250px',
-      // data: { name: this.name, color: this.color }
-    });
-
-    // dialogRef.afterClosed().subscribe(res => {
-    //   this.color = res;
-    // });
-}
+    const dialogRef = this.dialog.open(DialogModal);
+  }
 
 }
 
@@ -166,10 +40,35 @@ export class ContractListComponent implements OnInit {
 @Component({
   selector: 'dialog-modal',
   templateUrl: 'dialog-modal.html',
+  styleUrls: ['dialog-modal.css']
 })
 export class DialogModal {
-  constructor( public dialogRef: MatDialogRef<DialogModal>){}
+  description = "New Contract Form"
+  newContract: Contract;
+  contractForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    address: new FormControl('', Validators.required),
+    totalPrice: new FormControl(),
+    brokerName: new FormControl(),
+    brokerAddress: new FormControl(),
+    contractStartDate: new FormControl(),
+    contractEndDate: new FormControl()
+  });
+  constructor(
+    public dialogRef: MatDialogRef<DialogModal>,
+    private _snackBar: MatSnackBar,
+    private contractService: ContractService) { }
   close() {
     this.dialogRef.close("Thanks for using me!");
+  }
+  save() {
+    console.log("valid" + this.contractForm.valid)
+    if (this.contractForm.valid) {
+      this.newContract = this.contractForm.value;
+      this.contractService.createContract(this.newContract).subscribe(result => {
+        this.dialogRef.close()
+        this._snackBar.open("Data Saved. ", "Dismiss")
+      })
+    }
   }
 }

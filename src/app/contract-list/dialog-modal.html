@@ -1,31 +1,61 @@
-<!-- <h2 mat-dialog-title>{{description}}</h2>
 
-<mat-dialog-content [formGroup]="form">
-  
-    <mat-form-field>
-        <input matInput
-                placeholder="Course Description"
-               formControlName="description">
-    </mat-form-field>
-      ....
- 
+<h2 mat-dialog-title>{{description}}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="contractForm" class="feild-width">
+    <p>
+      <mat-form-field class="full-width">
+        <mat-label>Customer Name </mat-label>
+        <input matInput required placeholder="Enter Your Name" formControlName="name">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field class="full-width">
+        <mat-label>Customer Address </mat-label>
+        <input matInput required placeholder="Enter Your Address" formControlName="address">
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width">
+        <mat-label>Total Price </mat-label>
+        <input matInput required type="number" placeholder="Enter Total Price" formControlName="totalPrice">
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width">
+        <mat-label>Broker Name </mat-label>
+        <input matInput required placeholder="Enter Broker Name" formControlName="brokerName">
+      </mat-form-field>
+    
+      <mat-form-field class="full-width">
+        <mat-label>Broker Address </mat-label>
+        <input matInput required placeholder="Enter Broker Address" formControlName="brokerAddress">
+      </mat-form-field>
+    </p>
+
+    <p>
+      <tr>
+        <td>
+          <mat-form-field class="full-width">
+            <mat-label>Contract Start Date </mat-label>
+            <input matInput required type="date" formControlName="contractStartDate">
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="full-width">
+            <mat-label>Contract End Date </mat-label>
+            <input matInput required type="date" formControlName="contractEndDate">
+          </mat-form-field>
+        </td>
+      </tr>
+    </p>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
     <button class="mat-raised-button"(click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
-</mat-dialog-actions> -->
-
-
-<h1 mat-dialog-title>Dialog with nnn elements</h1>
-<div mat-dialog-content>
-  This dialog showcases the title, close, content and actions elements.</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button mat-dialog-close>Open</button>
-</div>
-
-
-<!-- Copyright 2019 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->
+    <span class="cover-space"></span>
+    <button style="float: right;" class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions> 

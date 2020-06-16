@@ -3,7 +3,7 @@ fd
     <mat-list-item class="boxing" *ngFor="let contract of contractList">
     <div mat-line><b>Customer Name: {{contract.name}}</b></div>
     <div mat-line>Customer Adress: {{contract.address}}</div>
-    <div mat-line>Price: {{contract.totalPrice}}</div>
+    <div mat-line>Price: {{contract.totalPrice | currency:'EUR'}}</div>
     <div mat-line>Broker Name: {{contract.brokerName}}</div> 
     <div mat-line>Broker Address: {{contract.brokerAddress}}</div>
     <div mat-line>Contract Start Date: {{contract.contractStartDate | date}}</div>
