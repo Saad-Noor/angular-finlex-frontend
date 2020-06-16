@@ -1,4 +1,4 @@
-# [Angular 9 Finlex Frontend] (https://finlex-frontend.herokuapp.com)
+# [Angular 9 Finlex Frontend](https://finlex-frontend.herokuapp.com)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
 
